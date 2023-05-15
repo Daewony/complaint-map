@@ -59,8 +59,8 @@ li {
 }
 
 .section {
-    margin: 20px auto;
-    padding: 20px;
+    margin: 0 auto;
+    padding: 20px 0;
 }
 
 /* code.snippet {
