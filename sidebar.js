@@ -40,11 +40,45 @@ const GoyangCity_WasteComplaints = {
   },
 };
 
-// 순위를 설정할 리스트 아이템 요소들을 선택합니다.
-const navLinks = document.querySelectorAll(".nav-link");
+// 데이터를 HTML에 추가하는 함수
+function addDataToHTML(data) {
+  const menuLinks = document.querySelector(".menu-links"); // 동적 데이터를 추가할 부모 요소 선택
 
-// 각 리스트 항목에 순차적인 순위를 할당합니다.
-navLinks.forEach((navLink, index) => {
-  const topRank = navLink.querySelector(".topRank");
-  topRank.textContent = (index + 1).toString();
-});
+  // 데이터 배열을 순회하며 HTML 요소를 생성하고 추가
+  data.forEach((item, index) => {
+    const listItem = document.createElement("li");
+    listItem.className = "nav-link";
+    listItem.innerHTML = `
+      <a href="#">
+        <span class="topRank">${index + 1}</span>
+        <strong class="city">${item.city}</strong>
+        <strong class="ward">${item.ward}</strong>
+        <div class="rankInfo">
+          <span class="count">${item.complaints} 건</span>
+          <span class="down">?</span>
+          <span class="percent">-16.0%</span>
+        </div>
+      </a>
+    `;
+    menuLinks.appendChild(listItem);
+  });
+}
+
+// 데이터를 추출하여 HTML에 추가
+const data = [];
+
+for (const city in GoyangCity_WasteComplaints) {
+  for (const ward in GoyangCity_WasteComplaints[city]) {
+    data.push({
+      city: city,
+      ward: ward,
+      complaints: GoyangCity_WasteComplaints[city][ward],
+    });
+  }
+}
+
+// 민원 수(complaints)로 내림차순으로 정렬
+data.sort((a, b) => b.complaints - a.complaints);
+
+// 데이터를 HTML에 추가
+addDataToHTML(data);
