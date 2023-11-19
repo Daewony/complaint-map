@@ -55,8 +55,6 @@ function addDataToHTML(data) {
         <strong class="ward">${item.ward}</strong>
         <div class="rankInfo">
           <span class="count">${item.complaints} 건</span>
-          <span class="down">?</span>
-          <span class="percent">-16.0%</span>
         </div>
       </a>
     `;
