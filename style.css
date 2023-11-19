@@ -9,6 +9,14 @@
     /* overflow-x: hidden; */
 }
 
+li::marker {
+  content: none; /* 또는 content: ""; */
+}
+
+a {
+    /* text-decoration: none; */
+}
+
 :root {
     /* ===== Colors ===== */
     --body-color: #E4E9F7;
@@ -17,6 +25,7 @@
     --primary-color-light: #F6F5FF;
     --toggle-color: #DDD;
     --text-color: #707070;
+    --sidebar-size: 370px;
 
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;
@@ -37,7 +46,7 @@ body {
 }
 
 body.dark {
-    --body-color: #18191a;
+    --body-color: #d8d8d869;
     --sidebar-color: #f9fafc;
     --primary-color: #00bcd4;
     --primary-color-light: #3a3b3c;
@@ -51,7 +60,7 @@ body.dark {
     top: 0;
     left: 0;
     height: 100%;
-    min-width: 315px;
+    min-width: var(--sidebar-size);
     /* padding: 10px 14px; */
     background: var(--sidebar-color);
     /* background: var(--primary-color); */
@@ -81,24 +90,187 @@ body.dark {
     list-style: none;
     display: flex;
     align-items: center;
-    background-color: red;
+    /* background-color: red; */
+    color: bal;
 }
 
-.menu-bar .nav-link {
-  padding: 12px;
+.menu-bar .nav-link a:visited, a:active{
+  /* margin: auto 0; */
+  color: black;
 }
 
 .menu-bar .topRank {
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   text-align: center;
+}
+
+.menu-bar .nav-link .city {
+  width: 70px;
+  text-align: right;
+}
+.menu-bar .nav-link .ward {
+  width: 120px;
+  text-align: right;
+}
+
+.menu-bar .rankInfo{
+  width: 130px;
+  text-align: right;
+}
+
+.content-box {
+    width: 100%; 
+    display: flex;
+    
+}
+
+#content {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-size);
+    width: calc(100vw - var(--sidebar-size));
+
+    background: var(--sidebar-color);
+} 
+
+.content-wrap {
+    display: flex;
+}
+
+.state-graph {
+    height: 400px;
+    /* background-color: red; */
+}
+
+svg path {
+    fill-opacity: 0.8;
+    /* fill: #695CFE; */
+    stroke: #eee;
+    stroke-width: 1;
+}
+svg path:hover {
+    fill: rgb(255, 127, 80);
+    transition: 0.6ms;
+    cursor: pointer;
+}
+
+.content-map-header {
+    font-size: larger;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.content-map-header strong{
+    color: #0d6594;
+    font-weight: bold;
+}
+
+#areaMap {
+    margin-left: 20px;
+    width: 720px;
+}
+
+.content-graph {
+    width: 100%;
+}
+
+/* 그래프 */
+
+.update-info {
+    text-align: right;
+    line-height: 30px;
+    margin-right: 25px;
+    margin-bottom: 12px;
+}
+
+.stateList {
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content:space-around;
+    text-align: center;
+}
+
+.stateList li {
+    flex: 0 0 calc(33.33%);
+    border-left: 1px solid #ddd;
+}
+
+.state-graph {
+    
+}
+
+#myChart{
+    
 }
 
 
 
 
+/* ================================== */
+.stat-tab {
+    display: flex;
+    justify-content: end;
+    margin-right: 30px;
+}
 
+.stat-tab li {
+    margin-left: 10px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.stat-tab li a {
+    color: #727891;
+    text-decoration: none;
+}
+
+.stat-tab li a.on {
+    color: #fc6c6c;
+    text-decoration: underline;
+}
+
+
+/* .stat-tab li a.on::after{
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: 1px solid #fc6c6c;
+} */
+
+.home {
+    position: absolute;
+    top: 580px;
+    left: var(--sidebar-size);
+    height: 100vh;
+    width: calc(100% - var(--sidebar-size));
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+
+.home .text {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 12px 60px;
+}
+
+.sidebar.close~.home {
+    left: 78px;
+    height: 100vh;
+    width: calc(100% - 78px);
+}
+
+body.dark .home .text {
+    color: var(--text-color);
+}
 
 /* =========================== */
 
@@ -178,16 +350,7 @@ header .image-text .profession {
 
 .sidebar li a:hover {
     background-color: var(--primary-color);
-}
-
-.sidebar li a:hover .icon,
-.sidebar li a:hover .text {
-    color: var(--sidebar-color);
-}
-
-body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:hover .text {
-    color: var(--text-color);
+    opacity: 0.7;
 }
 
 .sidebar .menu-bar {
@@ -196,115 +359,4 @@ body.dark .sidebar li a:hover .text {
     flex-direction: column;
     justify-content: space-between;
     overflow-y: scroll;
-}
-
-.menu-bar::-webkit-scrollbar {
-    display: none;
-}
-
-.sidebar .menu-bar .mode {
-    border-radius: 6px;
-    background-color: var(--primary-color-light);
-    position: relative;
-    transition: var(--tran-05);
-}
-
-.menu-bar .mode .sun-moon {
-    height: 50px;
-    width: 60px;
-}
-
-.mode .sun-moon i {
-    position: absolute;
-}
-
-.mode .sun-moon i.sun {
-    opacity: 0;
-}
-
-body.dark .mode .sun-moon i.sun {
-    opacity: 1;
-}
-
-body.dark .mode .sun-moon i.moon {
-    opacity: 0;
-}
-
-.menu-bar .bottom-content .toggle-switch {
-    position: absolute;
-    right: 0;
-    height: 100%;
-    min-width: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.toggle-switch .switch {
-    position: relative;
-    height: 22px;
-    width: 40px;
-    border-radius: 25px;
-    background-color: var(--toggle-color);
-    transition: var(--tran-05);
-}
-
-.switch::before {
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    background-color: var(--sidebar-color);
-    transition: var(--tran-04);
-}
-
-body.dark .switch::before {
-    left: 20px;
-}
-
-.home {
-    position: absolute;
-    top: 0;
-    top: 0;
-    left: 315px;
-    height: 100vh;
-    width: calc(100% - 250px);
-    background-color: var(--body-color);
-    transition: var(--tran-05);
-
-}
-
-.home .text {
-    font-size: 30px;
-    font-weight: 500;
-    color: var(--text-color);
-    padding: 12px 60px;
-}
-
-.sidebar.close~.home {
-    left: 78px;
-    height: 100vh;
-    width: calc(100% - 78px);
-}
-
-body.dark .home .text {
-    color: var(--text-color);
-}
-
-.sidebar-name {
-    padding: 2rem 0 0 0;
-}
-
-.image-text {
-    justify-content: center;
-}
-
-.bottom-content {
-    padding: 0 0 2rem 0;
 }
