@@ -54,13 +54,15 @@ var markerPositions = [
 var markers = [];
 
 var contents_html =
-  '<div style="padding:5px; background-color:#d3cc07; color:white; text-align:center; border:1px solid #a09b07; border-radius:14px; opacity:1;" onmouseover="javascript:overCrime(\'trash3\');" onmouseout="javascript:outCrime(\'trash3\');">' +
+  '<div style="padding:5px; background-color:white; color:black; text-align:center; border:1px solid #a09b07; border-radius:14px; opacity:0.9;" onmouseover="javascript:overCrime(\'trash3\');" onmouseout="javascript:outCrime(\'trash3\');">' +
   '<div style="font-weight: bold; font-size:14px;">쓰레기</div>' +
-  '<div id="trash3" style="font-weight: normal; font-size:13px; margin-top:3px; display:block">2023-10-01<br/>09시 13분</div>' +
+  '<div id="trash3" style="font-weight: normal; font-size:13px; margin-top:3px; display:block">2021-7-21<br/>13시 11분</div>' +
+  '<div><img src="images/trashDetect.png" alt="Trash Image" style="width: 100%; height: 100%; margin-top: 5px;"></div>' +
   "</div>";
 
 // 마커 생성과 지도에 추가하는 함수
-for (var i = 0; i < markerPositions.length; i++) {
+// for (var i = 0; i < markerPositions.length; i++) {
+for (var i = 0; i < 1; i++) {
   var position = markerPositions[i];
   var marker = new naver.maps.Marker({
     position: new naver.maps.LatLng(position.lat, position.lon),
@@ -92,11 +94,7 @@ function outCrime(childID) {
   console.log("bye");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  var trashCountElement = document.querySelector(".text.nav-text");
-  trashCountElement.innerHTML = "쓰레기 : " + markerPositions.length;
-});
-
+// 클러스팅 이미지 적용
 $(document).ready(function () {
   var htmlMarker1 = {
       content:
