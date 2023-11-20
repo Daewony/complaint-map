@@ -94,6 +94,10 @@ body.dark {
     color: bal;
 }
 
+.nav-link a {
+    color: black;
+}
+
 .menu-bar .nav-link a:visited, a:active{
   /* margin: auto 0; */
   color: black;
