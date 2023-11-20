@@ -53,17 +53,50 @@ var markerPositions = [
 // 마커 배열
 var markers = [];
 
-var contents_html =
-  '<div style="padding:5px; background-color:white; color:black; text-align:center; border:1px solid #a09b07; border-radius:14px; opacity:0.9;" onmouseover="javascript:overCrime(\'trash3\');" onmouseout="javascript:outCrime(\'trash3\');">' +
-  '<div style="font-weight: bold; font-size:14px;">쓰레기</div>' +
-  '<div id="trash3" style="font-weight: normal; font-size:13px; margin-top:3px; display:block">2021-7-21<br/>13시 11분</div>' +
-  '<div><img src="images/trashDetect.png" alt="Trash Image" style="width: 100%; height: 100%; margin-top: 5px;"></div>' +
-  "</div>";
+var markerDetails = [
+  { title: "쓰레기" ,date: "2021-7-21", time: "13시 00분", imageUrl: "images/trash1.png" },
+  { title: "쓰레기", date: "2021-7-06", time: "06시 08분", imageUrl: "images/trash2.png" },
+  { title: "쓰레기", date: "2021-7-11", time: "12시 59분", imageUrl: "images/trash3.png" },
+  { title: "현수막", date: "2021-7-22", time: "15시 00분", imageUrl: "images/b1.png" },
+  { title: "현수막", date: "2021-7-26", time: "05시 59분", imageUrl: "images/b2.png" },
+  { title: "복합", date: "2021-8-01", time: "05시 59분", imageUrl: "images/tb1.png" },
+  // 추가적인 마커 데이터 ...
+];
+
+// 컨텐츠 HTML을 생성하는 함수
+function createContentHtml(detail) {
+
+  var bgColor;
+  if(detail.title === "쓰레기"){
+    bgColor = "background-color: blue;";
+  }
+  if(detail.title === "현수막"){
+    bgColor = "background-color: red;";
+
+  }
+  if(detail.title === "복합"){
+    bgColor = "background-color: purple;";
+
+  }
+  
+  return '<div class="marker-wrapper">' +
+    '<div class="marker-circle" style="width: 30px; height: 30px;' + bgColor +' border-radius: 50%;"></div>' +
+    '<div class="marker-detail" style="padding:5px; background-color:white; color:black; text-align:center; border:1px solid #a09b07; border-radius:14px; opacity:0.9; display:none;">' +
+      '<div style="font-weight: bold; font-size:14px;">'+ detail.title +'</div>' +
+      '<div style="font-weight: normal; font-size:13px; margin-top:3px;">' + detail.date + '<br/>' + detail.time + '</div>' +
+      '<div><img src="' + detail.imageUrl + '" alt="Trash Image" style="width: 100%; height: 100%; margin-top: 5px;"></div>' +
+    '</div>' +
+  '</div>';
+}
+
+
 
 // 마커 생성과 지도에 추가하는 함수
-// for (var i = 0; i < markerPositions.length; i++) {
-for (var i = 0; i < 1; i++) {
+for (var i = 0; i < markerPositions.length; i++) {
   var position = markerPositions[i];
+  var details = markerDetails[i]; // 해당 위치에 대한 상세 정보
+  var contents_html = createContentHtml(details); // 각 마커에 맞는 HTML 컨텐츠 생성
+
   var marker = new naver.maps.Marker({
     position: new naver.maps.LatLng(position.lat, position.lon),
     map: map,
@@ -74,8 +107,29 @@ for (var i = 0; i < 1; i++) {
       anchor: new naver.maps.Point(19, 58),
     },
   });
+
+  // 클릭 이벤트 추가
+  naver.maps.Event.addListener(marker, 'click', function(e) {
+    var targetWrapper = $(e.overlay.getElement()).find('.marker-wrapper');
+    var detailElement = targetWrapper.find('.marker-detail');
+    var circleElement = targetWrapper.find('.marker-circle');
+
+    if (detailElement.is(':visible')) {
+      detailElement.hide(); // 상세 정보 숨김
+      circleElement.show();  // 원형 마커 표시
+      targetWrapper.css('z-index', ''); // z-index를 초기화
+    } else {
+      detailElement.show();  // 상세 정보 표시
+      circleElement.hide();  // 원형 마커 숨김
+      targetWrapper.parent().css('z-index', '999'); // 클릭된 마커의 부모 레이어의 z-index를 높여 상위 레이어에 표시
+    }
+  });
+
+
   markers.push(marker);
 }
+
+
 
 function overCrime(childID) {
   // $("#" + childID).show();
